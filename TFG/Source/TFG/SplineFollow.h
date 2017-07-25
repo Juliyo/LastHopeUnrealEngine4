@@ -12,12 +12,58 @@ UCLASS(Blueprintable, ClassGroup = Utility, ShowCategories = (Mobility), HideCat
 class TFG_API USplineFollow : public USplineComponent
 {
 	GENERATED_BODY()
+
 public:
 	USplineFollow();
 	
 	UFUNCTION(BlueprintPure, Category = "FollowSpline")
-	bool GetActive();
+	bool IsActive();
 
-protected:
+	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
+	void StopFollow();
+
+	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
+	void PauseFollow();
+
+	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
+	void ResumeFollow();
+
+	UFUNCTION(BlueprintPure, Category = "FollowSpline")
+	float GetSplineDistance();
+
+	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
+	void SetSplineDistance(float distance);
+
+	UFUNCTION(BlueprintPure, Category = "FollowSpline")
+	float GetVelocity();
+
+	//virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction) override;
+
+	/* Si es true el actor empieza moviendose por la spline*/
+	UPROPERTY(EditAnywhere, Category = SplineFollow)
+	bool StartActive;
+
+	/* Si es true el actor seguira la rotacion de la spline*/
+	UPROPERTY(EditAnywhere, Category = SplineFollow)
+	bool FollowRotation;
+
+	/* Factor de velocidad a la que se mueve por la spline */
+	UPROPERTY(EditAnywhere, Category = SplineFollow)
+	float Velocity;
+
+	/* Determina si loopeamos al llegar al final de la spline */
+	UPROPERTY(EditAnywhere, Category = SplineFollow)
+	bool Loop;
+
+private:
+	/* Determina si se esta recorriendo la spline */
 	bool active;
+
+	/* Distancia actual recorrida a lo largo de la spline */
+	float SplineDistance;
+
+	/* Si estamos recorriendo la spline en sentido positivo o en sentido negativo */
+	bool PositiveDirection;
+
+
 };
